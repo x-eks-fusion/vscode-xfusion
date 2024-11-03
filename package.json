@@ -1,0 +1,162 @@
+{
+  "name": "xf-code",
+  "displayName": "xf_code",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.95.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "xf-code.build",
+        "title": "xf build"
+      },
+      {
+        "command": "xf-code.clean",
+        "title": "xf clean"
+      },
+      {
+        "command": "xf-code.create",
+        "title": "xf create"
+      },
+      {
+        "command": "xf-code.export",
+        "title": "xf export"
+      },
+      {
+        "command": "xf-code.flash",
+        "title": "xf flash"
+      },
+      {
+        "command": "xf-code.install",
+        "title": "xf install"
+      },
+      {
+        "command": "xf-code.menuconfig",
+        "title": "xf menuconfig"
+      },
+      {
+        "command": "xf-code.monitor",
+        "title": "xf monitor"
+      },
+      {
+        "command": "xf-code.search",
+        "title": "xf search"
+      },
+      {
+        "command": "xf-code.target",
+        "title": "xf target"
+      },
+      {
+        "command": "xf-code.uninstall",
+        "title": "xf uninstall"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "xf-code.build"
+        },
+        {
+          "command": "xf-code.clean"
+        },
+        {
+          "command": "xf-code.create"
+        },
+        {
+          "command": "xf-code.export"
+        },
+        {
+          "command": "xf-code.flash"
+        },
+        {
+          "command": "xf-code.install"
+        },
+        {
+          "command": "xf-code.menuconfig"
+        },
+        {
+          "command": "xf-code.monitor"
+        },
+        {
+          "command": "xf-code.search"
+        },
+        {
+          "command": "xf-code.target"
+        },
+        {
+          "command": "xf-code.uninstall"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "xf-code.build",
+          "group": "navigation"
+        },
+        {
+          "command": "xf-code.clean"
+        },
+        {
+          "command": "xf-code.export"
+        },
+        {
+          "command": "xf-code.flash"
+        },
+        {
+          "command": "xf-code.monitor"
+        },
+        {
+          "command": "xf-code.menuconfig"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "xfusion-explorer",
+          "title": "XFusion",
+          "icon": "res/coral.svg"
+        }
+      ]
+    },
+    "views": {
+      "xfusion-explorer": [
+        {
+          "type": "tree",
+          "id": "xfusionExplorer",
+          "name": "Targets",
+          "icon": "res/coral.svg",
+          "contextualTitle": "XFusion"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.8",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.11.1",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.6.3"
+  }
+}
