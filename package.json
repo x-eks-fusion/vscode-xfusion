@@ -15,49 +15,77 @@
     "commands": [
       {
         "command": "xf-code.build",
-        "title": "xf build"
+        "title": "xf_code:编译xfusion工程",
+        "icon": {
+          "dark": "res/dark/build-icon.svg",
+          "light": "res/light/build-icon.svg"
+        }
       },
       {
         "command": "xf-code.clean",
-        "title": "xf clean"
+        "title": "xf_code:清除xfusion工程"
       },
       {
         "command": "xf-code.create",
-        "title": "xf create"
+        "title": "xf_code:创建xfusion工程"
       },
       {
         "command": "xf-code.export",
-        "title": "xf export"
+        "title": "xf_code:导出xfusion工程"
       },
       {
         "command": "xf-code.flash",
-        "title": "xf flash"
+        "title": "xf_code:烧录xfusion工程"
       },
       {
         "command": "xf-code.install",
-        "title": "xf install"
+        "title": "xf_code:安装第三方组件"
       },
       {
         "command": "xf-code.menuconfig",
-        "title": "xf menuconfig"
+        "title": "xf_code:启动menuconfig工具"
       },
       {
         "command": "xf-code.monitor",
-        "title": "xf monitor"
+        "title": "xf_code:启动串口监视器工具"
       },
       {
         "command": "xf-code.search",
-        "title": "xf search"
+        "title": "xf_code:查询第三方组件"
       },
       {
-        "command": "xf-code.target",
-        "title": "xf target"
+        "command": "xf-code.target_show",
+        "title": "xf_code:查看当前target"
+      },
+      {
+        "command": "xf-code.target_download",
+        "title": "xf_code:下载当前target的SDK"
       },
       {
         "command": "xf-code.uninstall",
-        "title": "xf uninstall"
+        "title": "xf_code:卸载第三方仓库"
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "xfusion-explorer",
+          "title": "XFusion",
+          "icon": "res/coral.svg"
+        }
+      ]
+    },
+    "views": {
+      "xfusion-explorer": [
+        {
+          "type": "tree",
+          "id": "xfusionExplorer",
+          "name": "插件",
+          "icon": "res/coral.svg",
+          "contextualTitle": "XFusion"
+        }
+      ]
+    },
     "menus": {
       "commandPalette": [
         {
@@ -88,7 +116,10 @@
           "command": "xf-code.search"
         },
         {
-          "command": "xf-code.target"
+          "command": "xf-code.target_show"
+        },
+        {
+          "command": "xf-code.target_download"
         },
         {
           "command": "xf-code.uninstall"
@@ -97,42 +128,28 @@
       "view/title": [
         {
           "command": "xf-code.build",
+          "when": "view == xfusionExplorer",
           "group": "navigation"
         },
         {
-          "command": "xf-code.clean"
+          "command": "xf-code.clean",
+          "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.export"
+          "command": "xf-code.export",
+          "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.flash"
+          "command": "xf-code.flash",
+          "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.monitor"
+          "command": "xf-code.monitor",
+          "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.menuconfig"
-        }
-      ]
-    },
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "xfusion-explorer",
-          "title": "XFusion",
-          "icon": "res/coral.svg"
-        }
-      ]
-    },
-    "views": {
-      "xfusion-explorer": [
-        {
-          "type": "tree",
-          "id": "xfusionExplorer",
-          "name": "Targets",
-          "icon": "res/coral.svg",
-          "contextualTitle": "XFusion"
+          "command": "xf-code.menuconfig",
+          "when": "view == xfusionExplorer"
         }
       ]
     }
@@ -157,6 +174,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "iconv-lite": "^0.6.3"
+    "iconv-lite": "^0.6.3",
+    "serialport": "^12.0.0"
   }
 }
