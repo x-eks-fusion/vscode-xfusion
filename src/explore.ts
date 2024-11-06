@@ -33,6 +33,7 @@ type XF_ExplorerDirectoryInfo = {
     group: string[];
     target: string;
     path: string[];
+    basePath: string;
 }
 
 type XF_ExplorerFileInfo = {
@@ -100,10 +101,15 @@ class XF_ExplorerItem extends vscode.TreeItem {
                 }
                 break;
             case XF_ExplorerItemType.DIRECTORY:
-                this.resourceUri = vscode.Uri.file(path.join(...info.path));
+                this.resourceUri = vscode.Uri.file(path.join(info.basePath, ...info.path));
                 break;
             case XF_ExplorerItemType.FILE:
-                this.resourceUri = vscode.Uri.file(path.join(...info.path));
+                this.resourceUri = vscode.Uri.file(path.join(info.basePath, ...info.path));
+                this.command = {
+                    command: 'vscode.open',
+                    title: 'Open File',
+                    arguments: [this.resourceUri]
+                };
                 break;
             default:
                 break;
@@ -385,7 +391,7 @@ export class XF_ExplorerDataProvider implements vscode.TreeDataProvider<XF_Explo
 
                     let subDirNode = current.children.find(node => node.info.type == XF_ExplorerItemType.DIRECTORY && node.info.path[node.info.path.length - 1] == subDirName);
                     if (!subDirNode) {
-                        current.children.push(new XF_ExplorerHierarchyNode({ type: XF_ExplorerItemType.DIRECTORY, group: groups, target: target.name, path: [...subPath] }));
+                        current.children.push(new XF_ExplorerHierarchyNode({ type: XF_ExplorerItemType.DIRECTORY, group: groups, target: target.name, path: [...subPath], basePath: target.basePath }));
                         subDirNode = current.children[current.children.length - 1];
                     }
 
