@@ -111,6 +111,14 @@
         "command": "xf-code.view_menuconfig",
         "enablement": "view == xfusionExplorer",
         "title": "启动menuconfig工具"
+      },
+      {
+        "command": "xfusionExplorer.refresh",
+        "title": "刷新",
+        "icon": {
+          "dark": "res/pic/dark/update.svg",
+          "light": "res/pic/light/update.svg"
+        }
       }
     ],
     "viewsContainers": {
@@ -127,9 +135,8 @@
         {
           "type": "tree",
           "id": "xfusionExplorer",
-          "name": "插件",
-          "icon": "res/pic/coral.svg",
-          "contextualTitle": "XFusion"
+          "name": "",
+          "icon": "res/pic/coral.svg"
         }
       ]
     },
@@ -179,6 +186,11 @@
         }
       ],
       "view/title": [
+        {
+          "command": "xfusionExplorer.refresh",
+          "when": "view == xfusionExplorer",
+          "group": "navigation"
+        },
         {
           "command": "xf-code.view_build",
           "when": "view == xfusionExplorer",

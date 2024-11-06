@@ -3,8 +3,9 @@
 import * as vscode from 'vscode';
 import { log } from './log';
 import * as path from 'path';
+import * as fs from 'fs';
 
-export enum XF_ExplorerItemType {
+enum XF_ExplorerItemType {
     ROOT,
     GROUP,
     TARGET,
@@ -46,12 +47,21 @@ type XF_ExplorerFileInfo = {
 
 type XF_ExplorerItemInfo = XF_ExplorerRootInfo | XF_ExplorerGroupInfo | XF_ExplorerTargetInfo | XF_ExplorerDirectoryInfo | XF_ExplorerFileInfo;
 
-export interface XF_Targets {
+interface XF_Targets {
     kind: string;
     group: string;
     name: string;
     files: string[];
     basePath: string;
+}
+
+interface Component {
+    name: string;
+    path: string;
+    srcs: string[];
+    inc_dirs: string[];
+    requires: string[];
+    cflags: string[];
 }
 
 class XF_ExplorerItem extends vscode.TreeItem {
@@ -144,7 +154,7 @@ class XF_ExplorerHierarchyNode {
 }
 
 
-export class XF_ExplorerDataProvider implements vscode.TreeDataProvider<XF_ExplorerItem> {
+class XF_ExplorerDataProvider implements vscode.TreeDataProvider<XF_ExplorerItem> {
     private _onDidChangeTreeData: vscode.EventEmitter<XF_ExplorerItem | undefined | void> = new vscode.EventEmitter<XF_ExplorerItem | undefined | void>();
     readonly onDidChangeTreeData: vscode.Event<XF_ExplorerItem | undefined | void> = this._onDidChangeTreeData.event;
 
@@ -431,5 +441,156 @@ export class XF_ExplorerDataProvider implements vscode.TreeDataProvider<XF_Explo
 
         // Refresh the tree view
         this._onDidChangeTreeData.fire();
+    }
+}
+
+export class XF_Explorer implements vscode.Disposable {
+    private _xf_ExplorerDataProvider: XF_ExplorerDataProvider;
+    private _treeView: vscode.TreeView<XF_ExplorerItem>;
+    private _build_environ_json: string = "";
+    private _dirWatcher: fs.FSWatcher | undefined;
+    private _fileWatcher: fs.FSWatcher | undefined;
+    
+    constructor(context: vscode.ExtensionContext) {
+        this._xf_ExplorerDataProvider = new XF_ExplorerDataProvider();
+        this._treeView = vscode.window.createTreeView('xfusionExplorer', { treeDataProvider: this._xf_ExplorerDataProvider });
+
+        if (!vscode.workspace.workspaceFolders) {
+            return;
+        }
+        this._build_environ_json = path.resolve(vscode.workspace.workspaceFolders[0].uri.fsPath, "build", "build_environ.json");
+
+        vscode.window.registerTreeDataProvider('xfusionExplorer', this._xf_ExplorerDataProvider);
+        // 注册刷新命令
+        const refreshCommand = vscode.commands.registerCommand('xfusionExplorer.refresh', () => this.refresh());
+        context.subscriptions.push(refreshCommand);
+
+        // 刷新按钮上下文
+        vscode.commands.executeCommand('setContext', 'xfusionExplorer.refreshButton', true);
+
+        // 初始化加载数据
+        this.initialize();
+
+        // 监听工作区文件变化
+        this.watchBuildDirectory(vscode.workspace.workspaceFolders[0].uri.fsPath);
+    }
+
+    private async initialize() {
+        try {
+            const content = await this.get_build_environ_json();
+            const targets = content ? this.convertJsonStringToTargets(content) : [];
+            this._xf_ExplorerDataProvider.refresh(targets);
+        } catch (error) {
+            log.error(`初始化时出错: ${error}`);
+            // 可以根据需要处理错误，比如清空视图或显示错误信息等
+        }
+
+        fs.watch(this._build_environ_json, (eventType, filename) => {
+            if (filename && eventType === 'change') {
+                this.refresh();
+            }
+        });
+    }
+
+    // 监听 build 目录的创建或删除
+    private watchBuildDirectory(workspaceFolder: string) {
+        const buildDirPath = path.join(workspaceFolder, 'build');
+        if (fs.existsSync(buildDirPath)) {
+            log.info('检测到 build 目录创建，开始监听 build_environ.json');
+            this.watchBuildEnvironJson(buildDirPath); // 启动 build_environ.json 监听
+        }
+        // 监听工作区目录下是否有 build 目录
+        this._dirWatcher = fs.watch(workspaceFolder, (eventType, filename) => {
+            if (filename === 'build' && eventType === 'rename') {
+                if (fs.existsSync(buildDirPath)) {
+                    log.info('检测到 build 目录创建，开始监听 build_environ.json');
+                    this.watchBuildEnvironJson(buildDirPath); // 启动 build_environ.json 监听
+                }
+                else
+                {
+                    log.info('检测到 build 目录删除，停止监听 build_environ.json');
+                    if (this._fileWatcher) {
+                        this._fileWatcher.close();
+                        this._fileWatcher = undefined;
+                    }
+                }
+            }
+        });
+    }
+
+    // 监听 build_environ.json 文件的变化
+    private watchBuildEnvironJson(buildDirPath: string) {
+        log.info('开始监听 build_environ.json');
+        this._fileWatcher = fs.watch(buildDirPath, (eventType, filename) => {
+            if (filename === 'build_environ.json') {
+                log.info('build_environ.json 文件发生变化，执行刷新操作');
+                this.refresh(); // 刷新操作
+            }
+        });
+
+    }
+
+    // 读取 build_environ.json 文件
+    private get_build_environ_json(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            fs.readFile(this._build_environ_json, 'utf8', (err, data) => {
+                if (err) {
+                    console.error(`读取文件失败: ${this._build_environ_json}`, err);
+                    return resolve("");  // 返回空字符串作为默认值
+                }
+                resolve(data);
+            });
+        });
+    }
+
+    // 转换 JSON 字符串为 targets 数据
+    private convertJsonStringToTargets(jsonString: string): XF_Targets[] {
+        const data = JSON.parse(jsonString);
+        const targets: XF_Targets[] = [];
+
+        const addTargets = (group: string, name: string, path: string, srcs: string[]) => {
+            if (srcs.length > 0) {
+                targets.push({
+                    kind: "",
+                    group,
+                    name,
+                    files: srcs.map(src => src.replace(`${path}/`, "")),
+                    basePath: path
+                });
+            }
+        };
+
+        const addComponentTargets = (group: string, components: { [key: string]: Component }, targets: XF_Targets[]) => {
+            for (const [name, component] of Object.entries(components || {})) {
+                addTargets(group, name, component.path, component.srcs);
+            }
+        }
+
+        addTargets("user_main", "user_main", data.user_main.path, data.user_main.srcs);
+        addComponentTargets("user_components", data.user_components, targets);
+        addComponentTargets("user_dirs", data.user_dirs, targets);
+        addComponentTargets("public_components", data.public_components, targets);
+
+        return targets;
+    }
+
+    // 刷新数据
+    async refresh() {
+        try {
+            const content = await this.get_build_environ_json();
+            const targets = content ? this.convertJsonStringToTargets(content) : [];
+            this._xf_ExplorerDataProvider.refresh(targets);
+        } catch (error) {
+            log.error(`刷新时出错: ${error}`);
+        }
+    };
+
+    // 清理资源
+    dispose() {
+        this._dirWatcher?.close()
+        this._dirWatcher = undefined;
+        this._fileWatcher?.close()
+        this._fileWatcher = undefined;
+        this._treeView.dispose();
     }
 }
