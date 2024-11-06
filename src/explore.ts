@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import { log } from './log';
 import * as path from 'path';
 import * as fs from 'fs';
+import { generateCppProperties } from './properties';
 
 enum XF_ExplorerItemType {
     ROOT,
@@ -484,12 +485,6 @@ export class XF_Explorer implements vscode.Disposable {
             log.error(`初始化时出错: ${error}`);
             // 可以根据需要处理错误，比如清空视图或显示错误信息等
         }
-
-        fs.watch(this._build_environ_json, (eventType, filename) => {
-            if (filename && eventType === 'change') {
-                this.refresh();
-            }
-        });
     }
 
     // 监听 build 目录的创建或删除
@@ -524,6 +519,7 @@ export class XF_Explorer implements vscode.Disposable {
         this._fileWatcher = fs.watch(buildDirPath, (eventType, filename) => {
             if (filename === 'build_environ.json') {
                 log.info('build_environ.json 文件发生变化，执行刷新操作');
+                generateCppProperties();
                 this.refresh(); // 刷新操作
             }
         });

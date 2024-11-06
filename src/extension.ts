@@ -1,13 +1,8 @@
 import * as vscode from 'vscode';
-import { iorunv, execv } from "./process";
 import { log } from './log';
 import * as xfusion from './xfusion';
 import * as welcome from './welcome';
 import { XF_Explorer } from './explore';
-import * as fs from 'fs';
-import * as path from 'path';
-
-
 
 function command_register(context: vscode.ExtensionContext, command: string, callback: (...args: any[]) => any) {
 	let cmd = vscode.commands.registerCommand(command, callback);
