@@ -15,55 +15,102 @@
     "commands": [
       {
         "command": "xf-code.build",
-        "title": "xf_code:编译xfusion工程",
-        "icon": {
-          "dark": "res/dark/build-icon.svg",
-          "light": "res/light/build-icon.svg"
-        }
+        "title": "xf_code: 编译xfusion工程"
       },
       {
         "command": "xf-code.clean",
-        "title": "xf_code:清除xfusion工程"
+        "title": "xf_code: 清除xfusion工程"
       },
       {
         "command": "xf-code.create",
-        "title": "xf_code:创建xfusion工程"
+        "title": "xf_code: 创建xfusion工程"
       },
       {
         "command": "xf-code.export",
-        "title": "xf_code:导出xfusion工程"
+        "title": "xf_code: 导出xfusion工程"
       },
       {
         "command": "xf-code.flash",
-        "title": "xf_code:烧录xfusion工程"
+        "title": "xf_code: 烧录xfusion工程"
       },
       {
         "command": "xf-code.install",
-        "title": "xf_code:安装第三方组件"
+        "title": "xf_code: 安装第三方组件"
       },
       {
         "command": "xf-code.menuconfig",
-        "title": "xf_code:启动menuconfig工具"
+        "title": "xf_code: 启动menuconfig工具"
       },
       {
         "command": "xf-code.monitor",
-        "title": "xf_code:启动串口监视器工具"
+        "title": "xf_code: 启动串口监视器工具"
       },
       {
         "command": "xf-code.search",
-        "title": "xf_code:查询第三方组件"
+        "title": "xf_code: 查询第三方组件"
       },
       {
         "command": "xf-code.target_show",
-        "title": "xf_code:查看当前target"
+        "title": "xf_code: 查看当前target"
       },
       {
         "command": "xf-code.target_download",
-        "title": "xf_code:下载当前target的SDK"
+        "title": "xf_code: 下载当前target的SDK"
       },
       {
         "command": "xf-code.uninstall",
-        "title": "xf_code:卸载第三方仓库"
+        "title": "xf_code: 卸载第三方仓库"
+      },
+      {
+        "command": "xf-code.update",
+        "title": "xf_code: 更新xfusion导出的工程"
+      },
+      {
+        "command": "xf-code.start",
+        "title": "xf_code: 打开启动页面"
+      },
+      {
+        "command": "xf-code.active",
+        "title": "xf_code: 激活xfusion"
+      },
+      {
+        "command": "xf-code.view_build",
+        "enablement": "view == xfusionExplorer",
+        "title": "编译工程",
+        "icon": {
+          "dark": "res/pic/dark/build-icon.svg",
+          "light": "res/pic/light/build-icon.svg"
+        }
+      },
+      {
+        "command": "xf-code.view_clean",
+        "enablement": "view == xfusionExplorer",
+        "title": "清除工程"
+      },
+      {
+        "command": "xf-code.view_export",
+        "enablement": "view == xfusionExplorer",
+        "title": "导出工程"
+      },
+      {
+        "command": "xf-code.view_update",
+        "enablement": "view == xfusionExplorer",
+        "title": "更新工程"
+      },
+      {
+        "command": "xf-code.view_flash",
+        "enablement": "view == xfusionExplorer",
+        "title": "烧录工程"
+      },
+      {
+        "command": "xf-code.view_monitor",
+        "enablement": "view == xfusionExplorer",
+        "title": "串口监视器"
+      },
+      {
+        "command": "xf-code.view_menuconfig",
+        "enablement": "view == xfusionExplorer",
+        "title": "启动menuconfig工具"
       }
     ],
     "viewsContainers": {
@@ -71,7 +118,7 @@
         {
           "id": "xfusion-explorer",
           "title": "XFusion",
-          "icon": "res/coral.svg"
+          "icon": "res/pic/coral.svg"
         }
       ]
     },
@@ -81,7 +128,7 @@
           "type": "tree",
           "id": "xfusionExplorer",
           "name": "插件",
-          "icon": "res/coral.svg",
+          "icon": "res/pic/coral.svg",
           "contextualTitle": "XFusion"
         }
       ]
@@ -123,35 +170,56 @@
         },
         {
           "command": "xf-code.uninstall"
+        },
+        {
+          "command": "xf-code.start"
+        },
+        {
+          "command": "xf-code.active"
         }
       ],
       "view/title": [
         {
-          "command": "xf-code.build",
+          "command": "xf-code.view_build",
           "when": "view == xfusionExplorer",
           "group": "navigation"
         },
         {
-          "command": "xf-code.clean",
+          "command": "xf-code.view_clean",
           "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.export",
+          "command": "xf-code.view_export",
           "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.flash",
+          "command": "xf-code.view_update",
           "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.monitor",
+          "command": "xf-code.view_flash",
           "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.menuconfig",
+          "command": "xf-code.view_monitor",
+          "when": "view == xfusionExplorer"
+        },
+        {
+          "command": "xf-code.view_menuconfig",
           "when": "view == xfusionExplorer"
         }
       ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "xf_code Settings",
+      "properties": {
+        "xf_code.XF_ROOT": {
+          "type": "string",
+          "default": "",
+          "description": "xfusion工程根目录"
+        }
+      }
     }
   },
   "scripts": {

@@ -1,3 +1,5 @@
+'use strict';
+
 import * as os from 'os';
 import * as iconv from 'iconv-lite';
 
