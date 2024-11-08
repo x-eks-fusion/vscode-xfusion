@@ -3,11 +3,17 @@
 ## 功能
 
 1. 通过`build/build_environ.json`自动生成目录树
+
 ![explorer](https://raw.githubusercontent.com/x-eks-fusion/vscode-xfusion/refs/heads/main/docs_pic/explorer.png)
+
 2. 设置编译`target`，并生成对应的`c/c++`代码跳转
+3. 
 ![target1](https://raw.githubusercontent.com/x-eks-fusion/vscode-xfusion/refs/heads/main/docs_pic/target1.png)
+
 ![target2](https://raw.githubusercontent.com/x-eks-fusion/vscode-xfusion/refs/heads/main/docs_pic/target2.png)
-1. 编译、清除、烧录、menuconfig、串口监视器拥有可视化按钮
+
+3. 编译、清除、烧录、menuconfig、串口监视器拥有可视化按钮
+
 ![button](https://raw.githubusercontent.com/x-eks-fusion/vscode-xfusion/refs/heads/main/docs_pic/button.png)
 
 
@@ -24,6 +30,7 @@
 
 后续需要打开一个活动终端。
 然后，设置右下角的target。
+
 ![target1](https://raw.githubusercontent.com/x-eks-fusion/vscode-xfusion/refs/heads/main/docs_pic/target1.png)
 
 接下来就可以编译和运行了。
