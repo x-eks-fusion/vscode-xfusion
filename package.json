@@ -3,6 +3,11 @@
   "displayName": "xfusion",
   "description": "",
   "version": "0.0.1",
+  "publisher": "kirto",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/x-eks-fusion/vscode-xfusion.git"
+  },
   "engines": {
     "vscode": "^1.95.1"
   },
@@ -264,18 +269,20 @@
     "watch": "tsc -watch -p ./",
     "pretest": "pnpm run compile && pnpm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "pnpm vsce package --no-dependencies",
+    "publish": "pnpm vsce publish --no-dependencies"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.8",
-    "@types/node": "20.x",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "~20.17.6",
     "@types/vscode": "^1.95.0",
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
-    "@typescript-eslint/parser": "^8.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/parser": "^8.13.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
-    "eslint": "^9.11.1",
-    "typescript": "^5.6.2"
+    "eslint": "^9.14.0",
+    "typescript": "^5.6.3"
   },
   "dependencies": {
     "iconv-lite": "^0.6.3",
