@@ -6,8 +6,9 @@ import { SerialPort } from 'serialport';
 import { promises as fs } from 'fs';
 import old_fs from 'fs';
 import path from 'path';
+import { generateCppProperties } from './properties';
 
-export async function xf_build_run() {
+async function xf_build_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -20,7 +21,7 @@ export async function xf_build_run() {
     activeTerminal.sendText('xf build');
 }
 
-export async function xf_clean_run() {
+async function xf_clean_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -33,7 +34,7 @@ export async function xf_clean_run() {
     activeTerminal.sendText('xf clean');
 }
 
-export async function xf_create_run() {
+async function xf_create_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -58,7 +59,7 @@ export async function xf_create_run() {
     activeTerminal.sendText(`xf create ${command}`);
 }
 
-export async function xf_export_run() {
+async function xf_export_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -80,10 +81,10 @@ export async function xf_export_run() {
     }
 
     // 在终端中执行用户输入的命令
-    activeTerminal.sendText(`xf export ${command}`);
+    activeTerminal.sendText(`xf ${command}`);
 }
 
-export async function xf_flash_run() {
+async function xf_flash_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -96,7 +97,7 @@ export async function xf_flash_run() {
     activeTerminal.sendText('xf flash');
 }
 
-export async function xf_install_run() {
+async function xf_install_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -120,7 +121,7 @@ export async function xf_install_run() {
     activeTerminal.sendText(`xf install ${command}`);
 }
 
-export async function xf_menuconfig_run() {
+async function xf_menuconfig_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -133,7 +134,7 @@ export async function xf_menuconfig_run() {
     activeTerminal.sendText('xf menuconfig');
 }
 
-export async function xf_monitor_run() {
+async function xf_monitor_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -166,7 +167,7 @@ export async function xf_monitor_run() {
 
 }
 
-export async function xf_search_run() {
+async function xf_search_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -190,7 +191,7 @@ export async function xf_search_run() {
     activeTerminal.sendText(`xf search ${command}`);
 }
 
-export async function xf_target_show_run() {
+async function xf_target_show_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -203,7 +204,7 @@ export async function xf_target_show_run() {
     activeTerminal.sendText('xf target -s');
 }
 
-export async function xf_target_download_run() {
+async function xf_target_download_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -216,7 +217,7 @@ export async function xf_target_download_run() {
     activeTerminal.sendText('xf target -d');
 }
 
-export async function xf_uninstall_run() {
+async function xf_uninstall_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -240,7 +241,7 @@ export async function xf_uninstall_run() {
     activeTerminal.sendText(`xf uninstall ${command}`);
 }
 
-export async function xf_update_run() {
+async function xf_update_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -294,7 +295,9 @@ async function findTargetJsonFolders(dir: string): Promise<string[]> {
     return foldersWithTargetJson;
 }
 
-export async function xf_active_run() {
+let statusBarItem: vscode.StatusBarItem;;
+
+async function xf_active_run() {
     const activeTerminal = vscode.window.activeTerminal;
 
     if (!activeTerminal) {
@@ -335,6 +338,9 @@ export async function xf_active_run() {
             }
 
             log.info(`source ${shellPath} ${selectedTarget}`);
+            statusBarItem.text = selectedTarget;
+            statusBarItem.show();
+            generateCppProperties(selectedTarget);
             activeTerminal.sendText(`source ${shellPath} ${selectedTarget}`);
         } catch (error) {
             vscode.window.showWarningMessage(`没找到target.json, ${error}`);
@@ -343,4 +349,46 @@ export async function xf_active_run() {
 
     // 立即调用获取目标和显示选择框的函数
     fetchTargetsAndShowPicker();
+}
+
+export function xf_set_status_bar_item(context: vscode.ExtensionContext) {
+    // 创建状态栏按钮
+	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	statusBarItem.command = 'xf-code.active';
+	statusBarItem.text = 'xf-code';
+	statusBarItem.tooltip = '点击设置target';
+	statusBarItem.show();
+  
+    context.subscriptions.push(statusBarItem);
+}
+
+
+function command_register(context: vscode.ExtensionContext, command: string, callback: (...args: any[]) => any) {
+	let cmd = vscode.commands.registerCommand(command, callback);
+	context.subscriptions.push(cmd);
+}
+
+export function register_all_command(context: vscode.ExtensionContext)
+{
+    command_register(context, 'xf-code.build', xf_build_run);
+	command_register(context, 'xf-code.clean', xf_clean_run);
+	command_register(context, 'xf-code.create', xf_create_run);
+	command_register(context, 'xf-code.export', xf_export_run);
+	command_register(context, 'xf-code.flash', xf_flash_run);
+	command_register(context, 'xf-code.install', xf_install_run);
+	command_register(context, 'xf-code.menuconfig', xf_menuconfig_run);
+	command_register(context, 'xf-code.monitor', xf_monitor_run);
+	command_register(context, 'xf-code.search', xf_search_run);
+	command_register(context, 'xf-code.target_show', xf_target_show_run);
+	command_register(context, 'xf-code.target_download', xf_target_download_run);
+	command_register(context, 'xf-code.uninstall', xf_uninstall_run);
+	command_register(context, 'xf-code.update', xf_update_run);
+	command_register(context, 'xf-code.view_build', xf_build_run);
+	command_register(context, 'xf-code.view_clean', xf_clean_run);
+	command_register(context, 'xf-code.view_export', xf_export_run);
+	command_register(context, 'xf-code.view_update', xf_update_run);
+	command_register(context, 'xf-code.view_flash', xf_flash_run);
+	command_register(context, 'xf-code.view_monitor', xf_monitor_run);
+	command_register(context, 'xf-code.view_menuconfig', xf_menuconfig_run);
+	command_register(context, 'xf-code.active', xf_active_run);
 }

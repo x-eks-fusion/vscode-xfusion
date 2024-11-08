@@ -34,6 +34,12 @@ function openFolderExplorer(panel: vscode.WebviewPanel) {
     });
 }
 
+function setDontShowAgainConfig(enable: boolean) {
+    const config = vscode.workspace.getConfiguration('xf_code');
+    config.update('dontShowStart', enable, vscode.ConfigurationTarget.Workspace);
+    log.info(`Updated 'xf_code.dontShowStart' to ${enable}`);
+}
+
 export function showWelcomePage(context: vscode.ExtensionContext) {
     const panel = vscode.window.createWebviewPanel(
         'welcomePage',
@@ -60,8 +66,30 @@ export function showWelcomePage(context: vscode.ExtensionContext) {
             case 'selectFile':
                 openFolderExplorer(panel); // 处理选择文件夹
                 return;
+            case 'dontShowAgain':
+                setDontShowAgainConfig(message.value);
+                return;
         }
     }, undefined, context.subscriptions);
+
+    const config = vscode.workspace.getConfiguration('xf_code');
+    const dontShowStart = config.get<boolean>('dontShowStart'); // 获取字符串设置
+    log.info(`showWelcomePage dontShowStart: ${dontShowStart}`);
+	panel.webview.postMessage({
+                command: 'dontShowAgain',
+                value: dontShowStart
+            });
+    const selectedPath = config.get<string>('XF_ROOT'); // 获取字符串设置
+    // 发送选择的文件夹路径到 Webview
+    panel.webview.postMessage({
+        command: 'showFolderPath',
+        path: selectedPath
+    });
+
+    // 设置 Webview 标签图标路径
+    panel.iconPath = vscode.Uri.file(
+        path.join(context.extensionPath, 'res', 'pic', 'coral.svg') // 图标路径
+      );
 }
 
 function getWebviewContent(): Promise<string> {

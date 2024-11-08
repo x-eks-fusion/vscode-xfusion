@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import { log } from './log';
 import * as path from 'path';
 import * as fs from 'fs';
-import { generateCppProperties } from './properties';
+import { register } from 'module';
 
 enum XF_ExplorerItemType {
     ROOT,
@@ -519,7 +519,6 @@ export class XF_Explorer implements vscode.Disposable {
         this._fileWatcher = fs.watch(buildDirPath, (eventType, filename) => {
             if (filename === 'build_environ.json') {
                 log.info('build_environ.json 文件发生变化，执行刷新操作');
-                generateCppProperties();
                 this.refresh(); // 刷新操作
             }
         });

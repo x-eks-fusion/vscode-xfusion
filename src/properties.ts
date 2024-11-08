@@ -43,7 +43,7 @@ const configurations = {
     }
 }
 
-export function generateCppProperties() {
+export function generateCppProperties(target: string = "") {
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (!workspaceFolders || workspaceFolders.length === 0) {
         vscode.window.showErrorMessage('没有打开工作区');
@@ -58,18 +58,35 @@ export function generateCppProperties() {
     if (!fs.existsSync(vscodeDir)) {
         fs.mkdirSync(vscodeDir);
     }
-
-
-    // 生成 c_cpp_properties.json 的内容
-    const cppProperties = {
-        version: 4,
-        enableConfigurationSquiggles: true,
-        configurations: [
-            configurations.bs21,
-            configurations.ws63,
-            configurations.esp32
-        ]
-    };
+    
+    let cppProperties;
+    if (target == "esp32" || target == "ws63" || target == "bs21") {
+        // 生成 c_cpp_properties.json 的内容
+        cppProperties = {
+            version: 4,
+            enableConfigurationSquiggles: true,
+            configurations: [
+                configurations[target]
+            ]
+        };
+    }
+    else if(target === "")
+    {
+        // 生成 c_cpp_properties.json 的内容
+        cppProperties = {
+            version: 4,
+            enableConfigurationSquiggles: true,
+            configurations: [
+                configurations.bs21,
+                configurations.esp32,
+                configurations.ws63
+            ]
+        };
+    }
+    else
+    {
+        return;
+    }
 
     // 将配置写入 c_cpp_properties.json
     fs.writeFileSync(cppPropertiesPath, JSON.stringify(cppProperties, null, 4));

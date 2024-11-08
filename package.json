@@ -78,14 +78,18 @@
         "enablement": "view == xfusionExplorer",
         "title": "编译工程",
         "icon": {
-          "dark": "res/pic/dark/build-icon.svg",
-          "light": "res/pic/light/build-icon.svg"
+          "dark": "res/pic/dark/build.svg",
+          "light": "res/pic/light/build.svg"
         }
       },
       {
         "command": "xf-code.view_clean",
         "enablement": "view == xfusionExplorer",
-        "title": "清除工程"
+        "title": "清除工程",
+        "icon": {
+          "dark": "res/pic/dark/clean.svg",
+          "light": "res/pic/light/clean.svg"
+        }
       },
       {
         "command": "xf-code.view_export",
@@ -100,21 +104,33 @@
       {
         "command": "xf-code.view_flash",
         "enablement": "view == xfusionExplorer",
-        "title": "烧录工程"
+        "title": "烧录工程",
+        "icon": {
+          "dark": "res/pic/dark/download.svg",
+          "light": "res/pic/light/download.svg"
+        }
       },
       {
         "command": "xf-code.view_monitor",
         "enablement": "view == xfusionExplorer",
-        "title": "串口监视器"
+        "title": "串口监视器",
+        "icon": {
+          "dark": "res/pic/dark/serial.svg",
+          "light": "res/pic/light/serial.svg"
+        }
       },
       {
         "command": "xf-code.view_menuconfig",
         "enablement": "view == xfusionExplorer",
-        "title": "启动menuconfig工具"
+        "title": "启动menuconfig工具",
+        "icon": {
+          "dark": "res/pic/dark/menu.svg",
+          "light": "res/pic/light/menu.svg"
+        }
       },
       {
         "command": "xfusionExplorer.refresh",
-        "title": "刷新",
+        "title": "刷新文件树",
         "icon": {
           "dark": "res/pic/dark/update.svg",
           "light": "res/pic/light/update.svg"
@@ -188,17 +204,17 @@
       "view/title": [
         {
           "command": "xfusionExplorer.refresh",
-          "when": "view == xfusionExplorer",
-          "group": "navigation"
+          "when": "view == xfusionExplorer"
         },
         {
           "command": "xf-code.view_build",
           "when": "view == xfusionExplorer",
-          "group": "navigation"
+          "group": "navigation@1"
         },
         {
           "command": "xf-code.view_clean",
-          "when": "view == xfusionExplorer"
+          "when": "view == xfusionExplorer",
+          "group": "navigation@2"
         },
         {
           "command": "xf-code.view_export",
@@ -210,15 +226,18 @@
         },
         {
           "command": "xf-code.view_flash",
-          "when": "view == xfusionExplorer"
+          "when": "view == xfusionExplorer",
+          "group": "navigation@3"
         },
         {
           "command": "xf-code.view_monitor",
-          "when": "view == xfusionExplorer"
+          "when": "view == xfusionExplorer",
+          "group": "navigation@5"
         },
         {
           "command": "xf-code.view_menuconfig",
-          "when": "view == xfusionExplorer"
+          "when": "view == xfusionExplorer",
+          "group": "navigation@4"
         }
       ]
     },
@@ -230,6 +249,11 @@
           "type": "string",
           "default": "",
           "description": "xfusion工程根目录"
+        },
+        "xf_code.dontShowStart": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否不显示启动页面"
         }
       }
     }
