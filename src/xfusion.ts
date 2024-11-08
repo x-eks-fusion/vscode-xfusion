@@ -354,8 +354,8 @@ async function xf_active_run() {
 export function xf_set_status_bar_item(context: vscode.ExtensionContext) {
     // 创建状态栏按钮
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-	statusBarItem.command = 'xf-code.active';
-	statusBarItem.text = 'xf-code';
+	statusBarItem.command = 'xfusion.active';
+	statusBarItem.text = 'xfusion';
 	statusBarItem.tooltip = '点击设置target';
 	statusBarItem.show();
   
@@ -370,25 +370,25 @@ function command_register(context: vscode.ExtensionContext, command: string, cal
 
 export function register_all_command(context: vscode.ExtensionContext)
 {
-    command_register(context, 'xf-code.build', xf_build_run);
-	command_register(context, 'xf-code.clean', xf_clean_run);
-	command_register(context, 'xf-code.create', xf_create_run);
-	command_register(context, 'xf-code.export', xf_export_run);
-	command_register(context, 'xf-code.flash', xf_flash_run);
-	command_register(context, 'xf-code.install', xf_install_run);
-	command_register(context, 'xf-code.menuconfig', xf_menuconfig_run);
-	command_register(context, 'xf-code.monitor', xf_monitor_run);
-	command_register(context, 'xf-code.search', xf_search_run);
-	command_register(context, 'xf-code.target_show', xf_target_show_run);
-	command_register(context, 'xf-code.target_download', xf_target_download_run);
-	command_register(context, 'xf-code.uninstall', xf_uninstall_run);
-	command_register(context, 'xf-code.update', xf_update_run);
-	command_register(context, 'xf-code.view_build', xf_build_run);
-	command_register(context, 'xf-code.view_clean', xf_clean_run);
-	command_register(context, 'xf-code.view_export', xf_export_run);
-	command_register(context, 'xf-code.view_update', xf_update_run);
-	command_register(context, 'xf-code.view_flash', xf_flash_run);
-	command_register(context, 'xf-code.view_monitor', xf_monitor_run);
-	command_register(context, 'xf-code.view_menuconfig', xf_menuconfig_run);
-	command_register(context, 'xf-code.active', xf_active_run);
+    command_register(context, 'xfusion.build', xf_build_run);
+	command_register(context, 'xfusion.clean', xf_clean_run);
+	command_register(context, 'xfusion.create', xf_create_run);
+	command_register(context, 'xfusion.export', xf_export_run);
+	command_register(context, 'xfusion.flash', xf_flash_run);
+	command_register(context, 'xfusion.install', xf_install_run);
+	command_register(context, 'xfusion.menuconfig', xf_menuconfig_run);
+	command_register(context, 'xfusion.monitor', xf_monitor_run);
+	command_register(context, 'xfusion.search', xf_search_run);
+	command_register(context, 'xfusion.target_show', xf_target_show_run);
+	command_register(context, 'xfusion.target_download', xf_target_download_run);
+	command_register(context, 'xfusion.uninstall', xf_uninstall_run);
+	command_register(context, 'xfusion.update', xf_update_run);
+	command_register(context, 'xfusion.view_build', xf_build_run);
+	command_register(context, 'xfusion.view_clean', xf_clean_run);
+	command_register(context, 'xfusion.view_export', xf_export_run);
+	command_register(context, 'xfusion.view_update', xf_update_run);
+	command_register(context, 'xfusion.view_flash', xf_flash_run);
+	command_register(context, 'xfusion.view_monitor', xf_monitor_run);
+	command_register(context, 'xfusion.view_menuconfig', xf_menuconfig_run);
+	command_register(context, 'xfusion.active', xf_active_run);
 }

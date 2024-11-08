@@ -1,5 +1,5 @@
 {
-  "name": "xf-code",
+  "name": "xfusion",
   "displayName": "xf_code",
   "description": "",
   "version": "0.0.1",
@@ -14,67 +14,67 @@
   "contributes": {
     "commands": [
       {
-        "command": "xf-code.build",
+        "command": "xfusion.build",
         "title": "xf_code: 编译xfusion工程"
       },
       {
-        "command": "xf-code.clean",
+        "command": "xfusion.clean",
         "title": "xf_code: 清除xfusion工程"
       },
       {
-        "command": "xf-code.create",
+        "command": "xfusion.create",
         "title": "xf_code: 创建xfusion工程"
       },
       {
-        "command": "xf-code.export",
+        "command": "xfusion.export",
         "title": "xf_code: 导出xfusion工程"
       },
       {
-        "command": "xf-code.flash",
+        "command": "xfusion.flash",
         "title": "xf_code: 烧录xfusion工程"
       },
       {
-        "command": "xf-code.install",
+        "command": "xfusion.install",
         "title": "xf_code: 安装第三方组件"
       },
       {
-        "command": "xf-code.menuconfig",
+        "command": "xfusion.menuconfig",
         "title": "xf_code: 启动menuconfig工具"
       },
       {
-        "command": "xf-code.monitor",
+        "command": "xfusion.monitor",
         "title": "xf_code: 启动串口监视器工具"
       },
       {
-        "command": "xf-code.search",
+        "command": "xfusion.search",
         "title": "xf_code: 查询第三方组件"
       },
       {
-        "command": "xf-code.target_show",
+        "command": "xfusion.target_show",
         "title": "xf_code: 查看当前target"
       },
       {
-        "command": "xf-code.target_download",
+        "command": "xfusion.target_download",
         "title": "xf_code: 下载当前target的SDK"
       },
       {
-        "command": "xf-code.uninstall",
+        "command": "xfusion.uninstall",
         "title": "xf_code: 卸载第三方仓库"
       },
       {
-        "command": "xf-code.update",
+        "command": "xfusion.update",
         "title": "xf_code: 更新xfusion导出的工程"
       },
       {
-        "command": "xf-code.start",
+        "command": "xfusion.start",
         "title": "xf_code: 打开启动页面"
       },
       {
-        "command": "xf-code.active",
+        "command": "xfusion.active",
         "title": "xf_code: 激活xfusion"
       },
       {
-        "command": "xf-code.view_build",
+        "command": "xfusion.view_build",
         "enablement": "view == xfusionExplorer",
         "title": "编译工程",
         "icon": {
@@ -83,7 +83,7 @@
         }
       },
       {
-        "command": "xf-code.view_clean",
+        "command": "xfusion.view_clean",
         "enablement": "view == xfusionExplorer",
         "title": "清除工程",
         "icon": {
@@ -92,17 +92,17 @@
         }
       },
       {
-        "command": "xf-code.view_export",
+        "command": "xfusion.view_export",
         "enablement": "view == xfusionExplorer",
         "title": "导出工程"
       },
       {
-        "command": "xf-code.view_update",
+        "command": "xfusion.view_update",
         "enablement": "view == xfusionExplorer",
         "title": "更新工程"
       },
       {
-        "command": "xf-code.view_flash",
+        "command": "xfusion.view_flash",
         "enablement": "view == xfusionExplorer",
         "title": "烧录工程",
         "icon": {
@@ -111,7 +111,7 @@
         }
       },
       {
-        "command": "xf-code.view_monitor",
+        "command": "xfusion.view_monitor",
         "enablement": "view == xfusionExplorer",
         "title": "串口监视器",
         "icon": {
@@ -120,7 +120,7 @@
         }
       },
       {
-        "command": "xf-code.view_menuconfig",
+        "command": "xfusion.view_menuconfig",
         "enablement": "view == xfusionExplorer",
         "title": "启动menuconfig工具",
         "icon": {
@@ -159,46 +159,46 @@
     "menus": {
       "commandPalette": [
         {
-          "command": "xf-code.build"
+          "command": "xfusion.build"
         },
         {
-          "command": "xf-code.clean"
+          "command": "xfusion.clean"
         },
         {
-          "command": "xf-code.create"
+          "command": "xfusion.create"
         },
         {
-          "command": "xf-code.export"
+          "command": "xfusion.export"
         },
         {
-          "command": "xf-code.flash"
+          "command": "xfusion.flash"
         },
         {
-          "command": "xf-code.install"
+          "command": "xfusion.install"
         },
         {
-          "command": "xf-code.menuconfig"
+          "command": "xfusion.menuconfig"
         },
         {
-          "command": "xf-code.monitor"
+          "command": "xfusion.monitor"
         },
         {
-          "command": "xf-code.search"
+          "command": "xfusion.search"
         },
         {
-          "command": "xf-code.target_show"
+          "command": "xfusion.target_show"
         },
         {
-          "command": "xf-code.target_download"
+          "command": "xfusion.target_download"
         },
         {
-          "command": "xf-code.uninstall"
+          "command": "xfusion.uninstall"
         },
         {
-          "command": "xf-code.start"
+          "command": "xfusion.start"
         },
         {
-          "command": "xf-code.active"
+          "command": "xfusion.active"
         }
       ],
       "view/title": [
@@ -207,35 +207,35 @@
           "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.view_build",
+          "command": "xfusion.view_build",
           "when": "view == xfusionExplorer",
           "group": "navigation@1"
         },
         {
-          "command": "xf-code.view_clean",
+          "command": "xfusion.view_clean",
           "when": "view == xfusionExplorer",
           "group": "navigation@2"
         },
         {
-          "command": "xf-code.view_export",
+          "command": "xfusion.view_export",
           "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.view_update",
+          "command": "xfusion.view_update",
           "when": "view == xfusionExplorer"
         },
         {
-          "command": "xf-code.view_flash",
+          "command": "xfusion.view_flash",
           "when": "view == xfusionExplorer",
           "group": "navigation@3"
         },
         {
-          "command": "xf-code.view_monitor",
+          "command": "xfusion.view_monitor",
           "when": "view == xfusionExplorer",
           "group": "navigation@5"
         },
         {
-          "command": "xf-code.view_menuconfig",
+          "command": "xfusion.view_menuconfig",
           "when": "view == xfusionExplorer",
           "group": "navigation@4"
         }

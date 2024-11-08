@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 	generateCppProperties();
 
 	// 注册start命令
-	const start = vscode.commands.registerCommand('xf-code.start', () => {
+	const start = vscode.commands.registerCommand('xfusion.start', () => {
 		welcome.showWelcomePage(context);
 	});
 	context.subscriptions.push(start);
