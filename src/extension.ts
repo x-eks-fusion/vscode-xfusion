@@ -17,11 +17,11 @@ export function activate(context: vscode.ExtensionContext) {
 	new XF_Explorer(context);
 
 	// 欢迎页面
-	const config = vscode.workspace.getConfiguration('xf_code');
+	const config = vscode.workspace.getConfiguration('xfusion');
 	const XF_ROOT = config.get<string>('XF_ROOT'); // 获取字符串设置
 	const dontShowStart = config.get<boolean>('dontShowStart'); // 获取字符串设置
 
-	if (XF_ROOT == "" || dontShowStart == false) {
+	if (XF_ROOT == "" && dontShowStart == false) {
 		welcome.showWelcomePage(context);
 	}
 

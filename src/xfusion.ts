@@ -307,7 +307,7 @@ async function xf_active_run() {
     // 打印活动终端的名称
     log.info(`活动终端名称: ${activeTerminal.name}`);
 
-    const config = vscode.workspace.getConfiguration('xf_code');
+    const config = vscode.workspace.getConfiguration('xfusion');
     const XF_ROOT = config.get<string>('XF_ROOT'); // 获取字符串设置
 
     if (XF_ROOT == "" || XF_ROOT == null) {

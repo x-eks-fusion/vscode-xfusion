@@ -22,7 +22,7 @@ function openFolderExplorer(panel: vscode.WebviewPanel) {
                 path: selectedPath
             });
 
-            const config = vscode.workspace.getConfiguration('xf_code');
+            const config = vscode.workspace.getConfiguration('xfusion');
 
             config.update('XF_ROOT', selectedPath, vscode.ConfigurationTarget.Workspace)
                 .then(() => {
@@ -35,9 +35,9 @@ function openFolderExplorer(panel: vscode.WebviewPanel) {
 }
 
 function setDontShowAgainConfig(enable: boolean) {
-    const config = vscode.workspace.getConfiguration('xf_code');
+    const config = vscode.workspace.getConfiguration('xfusion');
     config.update('dontShowStart', enable, vscode.ConfigurationTarget.Workspace);
-    log.info(`Updated 'xf_code.dontShowStart' to ${enable}`);
+    log.info(`Updated 'xfusion.dontShowStart' to ${enable}`);
 }
 
 export function showWelcomePage(context: vscode.ExtensionContext) {
@@ -72,7 +72,7 @@ export function showWelcomePage(context: vscode.ExtensionContext) {
         }
     }, undefined, context.subscriptions);
 
-    const config = vscode.workspace.getConfiguration('xf_code');
+    const config = vscode.workspace.getConfiguration('xfusion');
     const dontShowStart = config.get<boolean>('dontShowStart'); // 获取字符串设置
     log.info(`showWelcomePage dontShowStart: ${dontShowStart}`);
 	panel.webview.postMessage({

@@ -7,11 +7,11 @@ import * as fs from 'fs';
 const configurations = {
     bs21: {
         name: 'bs21',
-        compileCommands: "${config:xf_code.XF_ROOT}/sdks/bs2x_sdk/output/bs21e/acore/bs21e-sle-ble-slp-central-peripheral/compile_commands.json"
+        compileCommands: "${config:xfusion.XF_ROOT}/sdks/bs2x_sdk/output/bs21e/acore/bs21e-sle-ble-slp-central-peripheral/compile_commands.json"
     },
     ws63: {
         name: "ws63",
-        compilerPath: "${config:xf_code.XF_ROOT}/sdks/fbb_ws63/src/tools/bin/compiler/riscv/cc_riscv32_musl_100/cc_riscv32_musl_fp/bin/riscv32-linux-musl-gcc",
+        compilerPath: "${config:xfusion.XF_ROOT}/sdks/fbb_ws63/src/tools/bin/compiler/riscv/cc_riscv32_musl_100/cc_riscv32_musl_fp/bin/riscv32-linux-musl-gcc",
         includePath: [
             "${workspaceFolder}/**"
         ],
@@ -21,9 +21,9 @@ const configurations = {
         cStandard: "gnu99",
         cppStandard: "gnu++98",
         forcedInclude: [
-            "${config:xf_code.XF_ROOT}/sdks/fbb_ws63/src/output/ws63/acore/ws63-liteos-app/mconfig.h"
+            "${config:xfusion.XF_ROOT}/sdks/fbb_ws63/src/output/ws63/acore/ws63-liteos-app/mconfig.h"
         ],
-        compileCommands: "${config:xf_code.XF_ROOT}/sdks/fbb_ws63/src/output/ws63/acore/ws63-liteos-app/compile_commands.json",
+        compileCommands: "${config:xfusion.XF_ROOT}/sdks/fbb_ws63/src/output/ws63/acore/ws63-liteos-app/compile_commands.json",
         browse: {
             path: [
                 "${workspaceFolder}"
@@ -39,7 +39,7 @@ const configurations = {
         ],
         cStandard: "gnu99",
         cppStandard: "gnu++98",
-        compileCommands: "${config:xf_code.XF_ROOT}/boards/espressif/esp32/build/compile_commands.json"
+        compileCommands: "${config:xfusion.XF_ROOT}/boards/espressif/esp32/build/compile_commands.json"
     }
 }
 
@@ -58,7 +58,7 @@ export function generateCppProperties(target: string = "") {
     if (!fs.existsSync(vscodeDir)) {
         fs.mkdirSync(vscodeDir);
     }
-    
+
     let cppProperties;
     if (target == "esp32" || target == "ws63" || target == "bs21") {
         // 生成 c_cpp_properties.json 的内容
