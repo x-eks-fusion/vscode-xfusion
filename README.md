@@ -1,71 +1,29 @@
-# xf-code README
+# xfusion vscode 插件
 
-This is the README for your extension "xf-code". After writing up a brief description, we recommend including the following sections.
+## 功能
 
-## Features
+1. 通过`build/build_environ.json`自动生成目录树
+![explorer](docs_pic/explorer.png)
+2. 设置编译`target`，并生成对应的`c/c++`代码跳转
+![target1](docs_pic/target1.png)
+![target2](docs_pic/target2.png)
+3. 编译、清除、烧录、menuconfig、串口监视器拥有可视化按钮
+![button](docs_pic/button.png)
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
-For example if there is an image subfolder under your extension project workspace:
+## 使用方式
 
-\!\[feature X\]\(images/feature-x.png\)
+第一次打开插件后会有一个启动页
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![start](docs_pic/start.png)
 
-## Requirements
+启动页后，可以需要设置路径。
+然后关闭掉这个页面。
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+如果设置了路径，或者勾选以后不再提示。就不会出现这个页面
 
-## Extension Settings
+后续需要打开一个活动终端。
+然后，设置右下角的target。
+![target1](docs_pic/target1.png)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+接下来就可以编译和运行了。
