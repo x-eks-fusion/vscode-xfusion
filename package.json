@@ -4,6 +4,8 @@
   "description": "",
   "version": "0.0.1",
   "publisher": "kirto",
+  "license": "Apache-2.0",
+  "icon": "res/pic/coral.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/x-eks-fusion/vscode-xfusion.git"
