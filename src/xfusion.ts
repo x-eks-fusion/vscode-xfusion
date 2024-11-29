@@ -4,8 +4,8 @@ import * as vscode from 'vscode';
 import { log } from './log';
 import { SerialPort } from 'serialport';
 import { promises as fs } from 'fs';
-import old_fs from 'fs';
 import path from 'path';
+import * as os from 'os';
 import { generateCppProperties } from './properties';
 
 async function xf_build_run() {
@@ -43,7 +43,7 @@ async function xf_create_run() {
     }
 
     // 打印活动终端的名称
-    console.log(`活动终端名称: ${activeTerminal.name}`);
+    log.info(`活动终端名称: ${activeTerminal.name}`);
     const command = await vscode.window.showInputBox({
         placeHolder: '请输入你的工程名',
         prompt: '创建新的工程',
@@ -68,7 +68,7 @@ async function xf_export_run() {
     }
 
     // 打印活动终端的名称
-    console.log(`活动终端名称: ${activeTerminal.name}`);
+    log.info(`活动终端名称: ${activeTerminal.name}`);
     const command = await vscode.window.showInputBox({
         placeHolder: '请输入你的工程名',
         prompt: '导出新的工程',
@@ -105,7 +105,7 @@ async function xf_install_run() {
         return;
     }
     // 打印活动终端的名称
-    console.log(`活动终端名称: ${activeTerminal.name}`);
+    log.info(`活动终端名称: ${activeTerminal.name}`);
     const command = await vscode.window.showInputBox({
         placeHolder: '请输入安装第三方包名',
         prompt: '下载第三方包',
@@ -175,7 +175,7 @@ async function xf_search_run() {
         return;
     }
     // 打印活动终端的名称
-    console.log(`活动终端名称: ${activeTerminal.name}`);
+    log.info(`活动终端名称: ${activeTerminal.name}`);
     const command = await vscode.window.showInputBox({
         placeHolder: '请输入查询第三方包名',
         prompt: '搜索查询第三方包',
@@ -225,7 +225,7 @@ async function xf_uninstall_run() {
         return;
     }
     // 打印活动终端的名称
-    console.log(`活动终端名称: ${activeTerminal.name}`);
+    log.info(`活动终端名称: ${activeTerminal.name}`);
     const command = await vscode.window.showInputBox({
         placeHolder: '请输入第三方包名',
         prompt: '卸载第三方包',
@@ -310,18 +310,11 @@ async function xf_active_run() {
     const config = vscode.workspace.getConfiguration('xfusion');
     const XF_ROOT = config.get<string>('XF_ROOT'); // 获取字符串设置
 
-    if (XF_ROOT == "" || XF_ROOT == null) {
+    if (XF_ROOT === "" || XF_ROOT === null || XF_ROOT === undefined) {
         log.error("没有设置XF_ROOT");
         return;
     }
-
-    const shellPath = path.join(XF_ROOT, "export.sh");
     
-    if (!old_fs.existsSync(shellPath)) {
-        vscode.window.showWarningMessage(`没有找到${shellPath}文件`);
-        return;
-    }
-
     let targets: string[] = [];
 
     // 创建一个函数来获取目标文件夹并处理选择
@@ -336,12 +329,33 @@ async function xf_active_run() {
                 vscode.window.showWarningMessage('未选择任何目标');
                 return;
             }
-
-            log.info(`source ${shellPath} ${selectedTarget}`);
             statusBarItem.text = selectedTarget;
             statusBarItem.show();
             generateCppProperties(selectedTarget);
-            activeTerminal.sendText(`source ${shellPath} ${selectedTarget}`);
+
+            const platform = os.platform();
+            
+            if (platform === 'win32') {
+                const terminalName = activeTerminal.name.toLowerCase();
+                if (terminalName.includes('powershell')) {
+                    log.info('当前终端是 PowerShell');
+                    const shellPath = path.join(XF_ROOT, "export.ps1");
+                    activeTerminal.sendText(`${shellPath} ${selectedTarget}`);
+                } else if (terminalName.includes('cmd')) {
+                    log.info('当前终端是 CMD');
+                    const shellPath = path.join(XF_ROOT, "export.bat");
+                    activeTerminal.sendText(`${shellPath} ${selectedTarget}`);
+                } else {
+                    log.info(`当前终端是其他类型: ${activeTerminal.name}`);
+                }
+                
+            } else if (platform === 'linux') {
+                const shellPath = path.join(XF_ROOT, "export.sh");
+                activeTerminal.sendText(`source ${shellPath} ${selectedTarget}`);
+                log.info(`source ${shellPath} ${selectedTarget}`);
+            } else {
+                log.info(`当前系统是其他平台: ${platform}`);
+            }
         } catch (error) {
             vscode.window.showWarningMessage(`没找到target.json, ${error}`);
         }

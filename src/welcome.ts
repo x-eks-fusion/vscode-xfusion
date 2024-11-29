@@ -24,7 +24,7 @@ function openFolderExplorer(panel: vscode.WebviewPanel) {
 
             const config = vscode.workspace.getConfiguration('xfusion');
 
-            config.update('XF_ROOT', selectedPath, vscode.ConfigurationTarget.Workspace)
+            config.update('XF_ROOT', selectedPath, vscode.ConfigurationTarget.Global)
                 .then(() => {
                     log.info(`Updated 'XF_ROOT' to ${selectedPath}`);
                 }, (err) => {
@@ -36,7 +36,7 @@ function openFolderExplorer(panel: vscode.WebviewPanel) {
 
 function setDontShowAgainConfig(enable: boolean) {
     const config = vscode.workspace.getConfiguration('xfusion');
-    config.update('dontShowStart', enable, vscode.ConfigurationTarget.Workspace);
+    config.update('dontShowStart', enable, vscode.ConfigurationTarget.Global);
     log.info(`Updated 'xfusion.dontShowStart' to ${enable}`);
 }
 
