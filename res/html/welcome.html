@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>欢迎使用 XFusion</title>
-    <link rel="icon" type="image/svg+xml" href="https://coral-zone.cc/coral.svg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,7 +74,11 @@
 </head>
 
 <body>
-    <h1>欢迎使用 XFusion 插件</h1>
+    <h1>欢迎使用 <span style="
+        background: linear-gradient(to right, #3b50f2, #521e79);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      ">XFusion</span> 插件</h1>
 
     <!-- 图片居中 -->
     <svg version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -107,10 +110,14 @@
             c0.13,6.07-1.97,9.38-7.08,12.58c-168.24,105.35-336.37,210.87-504.49,316.41c-4.82,3.03-9.35,6.52-14.01,9.8
             C1363.36,1775.4,1362.31,1775.4,1361.25,1775.4z" fill="url(#linear-gradient)" />
     </svg>
-    <div><label id="xfRootPathLabel" for="xfRootPath">设置 XF_ROOT 路径：</label></div>
-    <!-- XF_ROOT 路径设置 -->
+    <div><label id="xfRootPathLabel" for="xfRootPath">设置 <span style="
+        background: linear-gradient(to right, #3b50f2, #521e79);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      ">XFusion</span> 路径：</label></div>
+    <!-- XFusion 路径设置 -->
     <div class="input-container">
-        <input type="text" id="xfRootPath" class="input-field" placeholder="请输入 XF_ROOT 的路径">
+        <input type="text" id="xfRootPath" class="input-field" placeholder="请输入 XFusion 的路径">
         <button class="file-button" onclick="selectFile()">选择路径</button>
     </div>
 
